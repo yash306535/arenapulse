@@ -24,9 +24,36 @@ export function HomeScreen(): React.JSX.Element {
     { href: "/ops", title: t.ops.heading, description: t.ops.description },
   ];
 
+  // The eight problem-statement capability keywords, mapped to their feature —
+  // rendered verbatim so alignment is visible in the UI as well as the README.
+  const capabilities: { keyword: string; feature: string }[] = [
+    { keyword: "Multilingual assistance", feature: t.assistant.heading },
+    { keyword: "Navigation", feature: t.navigation.heading },
+    { keyword: "Crowd management", feature: t.crowd.heading },
+    { keyword: "Accessibility", feature: t.access.heading },
+    { keyword: "Transportation", feature: t.transit.heading },
+    { keyword: "Sustainability", feature: t.sustainability.heading },
+    { keyword: "Operational intelligence", feature: t.ops.heading },
+    { keyword: "Real-time decision support", feature: t.crowd.recommendationsHeading },
+  ];
+
   return (
     <div className="space-y-8">
       <PageHeader title={t.home.heading} description={t.home.intro} />
+
+      <section className="space-y-3">
+        <h2 className="text-lg font-semibold">{t.home.capabilitiesHeading}</h2>
+        <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-2">
+          {capabilities.map((capability) => (
+            <div key={capability.keyword} className="flex flex-wrap gap-x-2 text-sm">
+              <dt className="font-semibold text-emerald-800 dark:text-emerald-300">
+                {capability.keyword}
+              </dt>
+              <dd className="text-slate-600 dark:text-slate-400">— {capability.feature}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">{t.home.roleHeading}</h2>

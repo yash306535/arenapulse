@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DemoBadge } from "@/components/ui/demo-badge";
 import { useAppContext } from "@/i18n/app-context";
-import { MAX_CHAT_HISTORY_TURNS } from "@/lib/constants";
+import { MAX_CHAT_HISTORY_TURNS, MAX_CHAT_MESSAGE_LENGTH } from "@/lib/constants";
 import type { ChatTurn } from "@/schemas/chat";
 import { LANGUAGES, type Language } from "@/schemas/common";
 import type { SearchResult } from "@/schemas/search";
@@ -169,7 +169,7 @@ export function AssistantChat(): React.JSX.Element {
             setInput(event.target.value);
           }}
           placeholder={t.assistant.placeholder}
-          maxLength={2000}
+          maxLength={MAX_CHAT_MESSAGE_LENGTH}
           className="min-h-11 flex-1 rounded-md border border-slate-300 px-3 py-2 dark:border-slate-600 dark:bg-slate-800"
         />
         <Button type="submit" disabled={streaming || input.trim() === ""}>

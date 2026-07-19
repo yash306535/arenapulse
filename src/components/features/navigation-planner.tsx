@@ -1,8 +1,9 @@
 /**
- * F2 — Smart Stadium Navigation UI. Picks an origin/destination, optionally
- * restricts to step-free routes (F4 accessibility), calls /api/navigation, and
- * renders the highlighted map alongside a keyboard-accessible step list — the
- * map's equivalent non-visual UI — plus Gemini's natural-language narration.
+ * F2 — Smart Stadium Navigation UI (navigation). Picks an origin/destination,
+ * optionally restricts to step-free routes (F4 accessibility), calls
+ * /api/navigation, and renders the highlighted map alongside a
+ * keyboard-accessible step list — the map's equivalent non-visual UI — plus
+ * Gemini's natural-language narration.
  */
 "use client";
 
@@ -10,11 +11,13 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 
 import type { MapEdge, MapNode } from "./route-map";
+import { postJson } from "./use-api-action";
 
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DemoBadge } from "@/components/ui/demo-badge";
+import { LabeledCheckbox, LabeledSelect } from "@/components/ui/field";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAppContext } from "@/i18n/app-context";
 import type { RouteResult } from "@/schemas/navigation";
@@ -35,6 +38,11 @@ interface Result {
   readonly mocked: boolean;
 }
 
+type Status = "idle" | "loading" | "success" | "noroute" | "error";
+
+/** HTTP status returned when no route exists under the given constraints. */
+const NO_ROUTE_STATUS = 422;
+
 export function NavigationPlanner({
   nodeOptions,
   mapNodes,
@@ -50,7 +58,7 @@ export function NavigationPlanner({
   const [originId, setOriginId] = useState(nodeOptions[0]?.id ?? "");
   const [destinationId, setDestinationId] = useState(nodeOptions.at(-1)?.id ?? "");
   const [stepFree, setStepFree] = useState(false);
-  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "noroute" | "error">("idle");
+  const [status, setStatus] = useState<Status>("idle");
   const [result, setResult] = useState<Result | null>(null);
 
   const submit = async (event: React.SyntheticEvent): Promise<void> => {
@@ -58,17 +66,11 @@ export function NavigationPlanner({
     setStatus("loading");
     setResult(null);
     try {
-      const response = await fetch("/api/navigation", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          originId,
-          destinationId,
-          stepFreeOnly: stepFree,
-          language: uiLanguage,
-        }),
-      });
-      if (response.status === 422) {
+      const response = await fetch(
+        "/api/navigation",
+        postJson({ originId, destinationId, stepFreeOnly: stepFree, language: uiLanguage }),
+      );
+      if (response.status === NO_ROUTE_STATUS) {
         setStatus("noroute");
         return;
       }
@@ -76,11 +78,13 @@ export function NavigationPlanner({
         throw new Error("request failed");
       }
       setResult((await response.json()) as Result);
-      setStatus("ok");
+      setStatus("success");
     } catch {
       setStatus("error");
     }
   };
+
+  const options = nodeOptions.map((node) => ({ value: node.id, label: node.label }));
 
   return (
     <div className="space-y-4">
@@ -93,50 +97,26 @@ export function NavigationPlanner({
           void submit(event);
         }}
         className="grid gap-4 sm:grid-cols-2"
+        aria-label={t.navigation.heading}
       >
-        <label className="flex flex-col gap-1 text-sm font-medium">
-          {t.navigation.origin}
-          <select
-            value={originId}
-            onChange={(event) => {
-              setOriginId(event.target.value);
-            }}
-            className="min-h-11 rounded-md border border-slate-300 px-3 py-2 dark:border-slate-600 dark:bg-slate-800"
-          >
-            {nodeOptions.map((node) => (
-              <option key={node.id} value={node.id}>
-                {node.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
-          {t.navigation.destination}
-          <select
-            value={destinationId}
-            onChange={(event) => {
-              setDestinationId(event.target.value);
-            }}
-            className="min-h-11 rounded-md border border-slate-300 px-3 py-2 dark:border-slate-600 dark:bg-slate-800"
-          >
-            {nodeOptions.map((node) => (
-              <option key={node.id} value={node.id}>
-                {node.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex items-center gap-2 text-sm font-medium sm:col-span-2">
-          <input
-            type="checkbox"
-            checked={stepFree}
-            onChange={(event) => {
-              setStepFree(event.target.checked);
-            }}
-            className="h-5 w-5"
-          />
-          {t.navigation.stepFree}
-        </label>
+        <LabeledSelect
+          label={t.navigation.origin}
+          value={originId}
+          onValueChange={setOriginId}
+          options={options}
+        />
+        <LabeledSelect
+          label={t.navigation.destination}
+          value={destinationId}
+          onValueChange={setDestinationId}
+          options={options}
+        />
+        <LabeledCheckbox
+          label={t.navigation.stepFree}
+          checked={stepFree}
+          onCheckedChange={setStepFree}
+          className="sm:col-span-2"
+        />
         <div className="sm:col-span-2">
           <Button type="submit" disabled={status === "loading"}>
             {status === "loading" ? t.common.loading : t.navigation.getDirections}
@@ -156,7 +136,7 @@ export function NavigationPlanner({
         </p>
       ) : null}
 
-      {status === "ok" && result !== null ? (
+      {status === "success" && result !== null ? (
         <div className="grid gap-4 lg:grid-cols-2">
           <RouteMap
             viewBox={viewBox}

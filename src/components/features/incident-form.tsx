@@ -6,8 +6,12 @@
 
 import { useState } from "react";
 
+import { postJson, requestJson } from "./use-api-action";
+
 import { Button } from "@/components/ui/button";
+import { LabeledSelect, LabeledTextarea } from "@/components/ui/field";
 import { useAppContext } from "@/i18n/app-context";
+import { MAX_INCIDENT_DESCRIPTION_LENGTH } from "@/lib/constants";
 import { incidentCategorySchema, incidentSeveritySchema } from "@/schemas/ops";
 import type { Incident, IncidentCreate } from "@/schemas/ops";
 
@@ -16,6 +20,8 @@ export interface ZoneOption {
   readonly id: string;
   readonly label: string;
 }
+
+const MIN_DESCRIPTION_LENGTH = 5;
 
 export function IncidentForm({
   zones,
@@ -36,21 +42,17 @@ export function IncidentForm({
 
   const submit = async (event: React.SyntheticEvent): Promise<void> => {
     event.preventDefault();
-    if (description.trim().length < 5) {
+    if (description.trim().length < MIN_DESCRIPTION_LENGTH) {
       return;
     }
     setBusy(true);
     setError(false);
     try {
-      const response = await fetch("/api/ops/incidents", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ zoneId, category, severity, description, reportedBy }),
-      });
-      if (!response.ok) {
-        throw new Error("request failed");
-      }
-      onCreated((await response.json()) as Incident);
+      const incident = await requestJson<Incident>(
+        "/api/ops/incidents",
+        postJson({ zoneId, category, severity, description, reportedBy }),
+      );
+      onCreated(incident);
     } catch {
       setError(true);
     } finally {
@@ -65,72 +67,37 @@ export function IncidentForm({
       }}
       className="space-y-3"
     >
-      <label className="flex flex-col gap-1 text-sm font-medium">
-        {t.ops.zone}
-        <select
-          value={zoneId}
-          onChange={(event) => {
-            setZoneId(event.target.value);
-          }}
-          className="min-h-11 rounded-md border border-slate-300 px-3 py-2 dark:border-slate-600 dark:bg-slate-800"
-        >
-          {zones.map((zone) => (
-            <option key={zone.id} value={zone.id}>
-              {zone.label}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="flex flex-col gap-1 text-sm font-medium">
-        {t.ops.category}
-        <select
-          value={category}
-          onChange={(event) => {
-            setCategory(event.target.value as IncidentCreate["category"]);
-          }}
-          className="min-h-11 rounded-md border border-slate-300 px-3 py-2 dark:border-slate-600 dark:bg-slate-800"
-        >
-          {incidentCategorySchema.options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="flex flex-col gap-1 text-sm font-medium">
-        {t.ops.severity}
-        <select
-          value={severity}
-          onChange={(event) => {
-            setSeverity(event.target.value as IncidentCreate["severity"]);
-          }}
-          className="min-h-11 rounded-md border border-slate-300 px-3 py-2 dark:border-slate-600 dark:bg-slate-800"
-        >
-          {incidentSeveritySchema.options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label className="flex flex-col gap-1 text-sm font-medium">
-        {t.ops.descriptionField}
-        <textarea
-          value={description}
-          onChange={(event) => {
-            setDescription(event.target.value);
-          }}
-          rows={3}
-          maxLength={500}
-          className="rounded-md border border-slate-300 px-3 py-2 dark:border-slate-600 dark:bg-slate-800"
-        />
-      </label>
+      <LabeledSelect
+        label={t.ops.zone}
+        value={zoneId}
+        onValueChange={setZoneId}
+        options={zones.map((zone) => ({ value: zone.id, label: zone.label }))}
+      />
+      <LabeledSelect
+        label={t.ops.category}
+        value={category}
+        onValueChange={setCategory}
+        options={incidentCategorySchema.options.map((option) => ({ value: option, label: option }))}
+      />
+      <LabeledSelect
+        label={t.ops.severity}
+        value={severity}
+        onValueChange={setSeverity}
+        options={incidentSeveritySchema.options.map((option) => ({ value: option, label: option }))}
+      />
+      <LabeledTextarea
+        label={t.ops.descriptionField}
+        value={description}
+        onValueChange={setDescription}
+        rows={3}
+        maxLength={MAX_INCIDENT_DESCRIPTION_LENGTH}
+      />
       {error ? (
         <p role="alert" className="text-sm text-red-700">
           {t.common.error}
         </p>
       ) : null}
-      <Button type="submit" disabled={busy || description.trim().length < 5}>
+      <Button type="submit" disabled={busy || description.trim().length < MIN_DESCRIPTION_LENGTH}>
         {busy ? t.common.loading : t.ops.report}
       </Button>
     </form>

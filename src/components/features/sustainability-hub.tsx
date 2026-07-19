@@ -1,20 +1,23 @@
 /**
- * F6 — Sustainability Hub UI. Compares travel-mode carbon impact via
- * /api/sustainability and shows a personalized Gemini tip. Emission factors are
- * illustrative (disclosed in the returned note).
+ * F6 — Sustainability Hub UI (sustainability). Compares travel-mode carbon
+ * impact via /api/sustainability and shows a personalized Gemini tip. Emission
+ * factors are illustrative (disclosed in the returned note).
  */
 "use client";
 
 import { useState } from "react";
 
+import { useApiAction, postJson, requestJson } from "./use-api-action";
+
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DemoBadge } from "@/components/ui/demo-badge";
+import { LabeledInput, LabeledSelect } from "@/components/ui/field";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAppContext } from "@/i18n/app-context";
 import type { ModeComparison } from "@/lib/sustainability/carbon";
-import type { CarbonMode } from "@/schemas/sustainability";
+import { MAX_TRIP_DISTANCE_KM, type CarbonMode } from "@/schemas/sustainability";
 
 /** A selectable travel mode. */
 export interface ModeOption {
@@ -29,35 +32,23 @@ interface Result {
   readonly mocked: boolean;
 }
 
+const DEFAULT_DISTANCE_KM = "8";
+
 export function SustainabilityHub({ modes }: { readonly modes: ModeOption[] }): React.JSX.Element {
   const { t } = useAppContext();
   const [mode, setMode] = useState<CarbonMode>(modes[0]?.mode ?? "car");
-  const [distanceKm, setDistanceKm] = useState("8");
-  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
-  const [result, setResult] = useState<Result | null>(null);
+  const [distanceKm, setDistanceKm] = useState(DEFAULT_DISTANCE_KM);
+  const { status, result, run } = useApiAction<Result>();
 
-  const submit = async (event: React.SyntheticEvent): Promise<void> => {
+  const submit = (event: React.SyntheticEvent): void => {
     event.preventDefault();
     const distance = Number(distanceKm);
     if (!Number.isFinite(distance) || distance <= 0) {
       return;
     }
-    setStatus("loading");
-    setResult(null);
-    try {
-      const response = await fetch("/api/sustainability", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ mode, distanceKm: distance }),
-      });
-      if (!response.ok) {
-        throw new Error("request failed");
-      }
-      setResult((await response.json()) as Result);
-      setStatus("ok");
-    } catch {
-      setStatus("error");
-    }
+    void run(() =>
+      requestJson<Result>("/api/sustainability", postJson({ mode, distanceKm: distance })),
+    );
   };
 
   return (
@@ -67,45 +58,27 @@ export function SustainabilityHub({ modes }: { readonly modes: ModeOption[] }): 
       </PageHeader>
 
       <form
-        onSubmit={(event) => {
-          void submit(event);
-        }}
-        className="grid gap-4 sm:grid-cols-3"
+        onSubmit={submit}
+        className="grid items-end gap-4 sm:grid-cols-3"
+        aria-label={t.sustainability.heading}
       >
-        <label className="flex flex-col gap-1 text-sm font-medium">
-          {t.sustainability.mode}
-          <select
-            value={mode}
-            onChange={(event) => {
-              setMode(event.target.value as CarbonMode);
-            }}
-            className="min-h-11 rounded-md border border-slate-300 px-3 py-2 dark:border-slate-600 dark:bg-slate-800"
-          >
-            {modes.map((option) => (
-              <option key={option.mode} value={option.mode}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
-          {t.sustainability.distance}
-          <input
-            type="number"
-            min="1"
-            max="500"
-            value={distanceKm}
-            onChange={(event) => {
-              setDistanceKm(event.target.value);
-            }}
-            className="min-h-11 rounded-md border border-slate-300 px-3 py-2 dark:border-slate-600 dark:bg-slate-800"
-          />
-        </label>
-        <div className="flex items-end">
-          <Button type="submit" disabled={status === "loading"}>
-            {status === "loading" ? t.common.loading : t.sustainability.compare}
-          </Button>
-        </div>
+        <LabeledSelect
+          label={t.sustainability.mode}
+          value={mode}
+          onValueChange={setMode}
+          options={modes.map((option) => ({ value: option.mode, label: option.label }))}
+        />
+        <LabeledInput
+          label={t.sustainability.distance}
+          type="number"
+          min={1}
+          max={MAX_TRIP_DISTANCE_KM}
+          value={distanceKm}
+          onValueChange={setDistanceKm}
+        />
+        <Button type="submit" disabled={status === "loading"}>
+          {status === "loading" ? t.common.loading : t.sustainability.compare}
+        </Button>
       </form>
 
       {status === "loading" ? <Skeleton className="h-40" label={t.common.loading} /> : null}
@@ -115,7 +88,7 @@ export function SustainabilityHub({ modes }: { readonly modes: ModeOption[] }): 
         </p>
       ) : null}
 
-      {status === "ok" && result !== null ? (
+      {status === "success" && result !== null ? (
         <div className="space-y-4" aria-live="polite">
           <Card>
             <h2 className="mb-2 text-lg font-semibold">{t.sustainability.comparisonHeading}</h2>

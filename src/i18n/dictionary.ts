@@ -50,6 +50,7 @@ export interface Dictionary {
     readonly roleHeading: string;
     readonly roleIntro: string;
     readonly featuresHeading: string;
+    readonly capabilitiesHeading: string;
     readonly open: string;
   };
   readonly assistant: {

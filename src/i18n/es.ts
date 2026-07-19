@@ -47,6 +47,7 @@ export const es: Dictionary = {
     roleIntro:
       "Cambia de rol cuando quieras. Tu elección se recuerda en la dirección de la página.",
     featuresHeading: "Explora las funciones",
+    capabilitiesHeading: "Capacidades cubiertas",
     open: "Abrir",
   },
   assistant: {

@@ -46,6 +46,7 @@ export const en: Dictionary = {
     roleHeading: "Choose your experience",
     roleIntro: "Switch roles any time. Your choice is remembered in the page address.",
     featuresHeading: "Explore the features",
+    capabilitiesHeading: "Capabilities covered",
     open: "Open",
   },
   assistant: {

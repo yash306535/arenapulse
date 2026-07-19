@@ -14,6 +14,27 @@ Every one of the eight capability keywords is a named, working feature, visible 
 
 ---
 
+## Chosen vertical, approach & assumptions
+
+**Chosen vertical:** GenAI-enabled **stadium operations & fan experience for the FIFA World Cup 2026** — serving four personas via a role switcher: **fans, volunteers, organizers, and venue staff**.
+
+**Approach & logic.** The app is a smart, context-aware assistant surface rather than a single chatbot. Decisions adapt to the selected role and live inputs:
+
+- The **multilingual assistant (F1)** grounds answers in a stadium knowledge base and, when a question is time-sensitive (schedules, weather, news), attaches **cited live search results (F8)** before answering — a logical "do I need fresh info?" branch (`src/lib/ai/live-info.ts`).
+- **Role drives behavior:** organizers get crowd AI recommendations and the full ops briefing; volunteers/fans get a filtered, simplified view of the same data.
+- **AI is used where it adds value:** natural-language route narration (F2), structured crowd/ops decision support validated against a schema (F3/F7), plain-language rewriting (F4), and departure-time advice (F5) — all with deterministic non-AI fallbacks.
+
+**How it works.** A Next.js App Router front end (Server Components + targeted client islands) calls thin server route handlers that validate input with zod, enforce rate limits, and delegate to pure `lib/` services. External providers (Gemini, Google Maps, Google Programmable Search) are isolated server-side, each with a deterministic **mock twin** so the app runs fully with zero keys. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the request lifecycle.
+
+**Assumptions.**
+
+- Crowd density is **simulated** (seeded, clearly labeled) as a stand-in for real turnstile/sensor telemetry.
+- No auth/database by design — role is a UI concern (URL param) and stores are in-memory, so the demo is deterministic and judge-runnable.
+- The venue map, schedule, knowledge base, and emission factors are illustrative demo fixtures for a fictional stadium.
+- External API keys are optional; any missing service transparently uses its mock twin with a visible "Demo mode" badge.
+
+---
+
 ## Capability keyword → feature → route → source
 
 | Capability keyword          | Feature                               | Route                | Primary source file(s)                                                                |
