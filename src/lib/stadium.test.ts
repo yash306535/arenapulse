@@ -44,3 +44,12 @@ describe("lookups", () => {
     expect(getZone("missing")).toBeUndefined();
   });
 });
+
+describe("listZones and stadiumViewBox", () => {
+  it("lists zones and returns the map viewBox", async () => {
+    const { listZones, stadiumViewBox } = await import("./stadium");
+    expect(listZones().length).toBeGreaterThan(0);
+    expect(listZones()[0]?.rect.width).toBeGreaterThan(0);
+    expect(stadiumViewBox()).toMatch(/^[\d\s]+$/);
+  });
+});

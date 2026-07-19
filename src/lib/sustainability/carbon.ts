@@ -32,9 +32,20 @@ export interface ModeComparison {
   readonly savedVsCarGrams: number;
 }
 
+/** A selectable travel mode with its display label. */
+export interface CarbonModeOption {
+  readonly mode: CarbonMode;
+  readonly label: string;
+}
+
 /** The disclosure note attached to the emission factors fixture. */
 export function carbonFactorsNote(): string {
   return carbonData.note;
+}
+
+/** Lists the available travel modes and labels, for UI selectors. */
+export function listCarbonModes(): CarbonModeOption[] {
+  return carbonData.factors.map((factor) => ({ mode: factor.mode, label: factor.label }));
 }
 
 /** Computes grams of CO2e for one person travelling `distanceKm` by `mode`. */

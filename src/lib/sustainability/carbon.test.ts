@@ -49,3 +49,13 @@ describe("carbonFactorsNote", () => {
     expect(carbonFactorsNote()).toMatch(/[Ii]llustrative/);
   });
 });
+
+describe("listCarbonModes", () => {
+  it("lists every configured mode with a label", async () => {
+    const { listCarbonModes } = await import("./carbon");
+    const modes = listCarbonModes();
+    expect(modes.length).toBeGreaterThan(0);
+    expect(modes.every((entry) => entry.label.length > 0)).toBe(true);
+    expect(modes.map((entry) => entry.mode)).toContain("car");
+  });
+});

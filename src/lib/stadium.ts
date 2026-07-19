@@ -73,3 +73,13 @@ export function getNode(id: string): StadiumNode | undefined {
 export function getZone(id: string): StadiumZone | undefined {
   return getStadiumGraph().zonesById.get(id);
 }
+
+/** Lists all crowd zones in fixture order (used by the heatmap layer). */
+export function listZones(): StadiumZone[] {
+  return getStadiumGraph().geo.zones;
+}
+
+/** Returns the SVG viewBox string for the stadium map. */
+export function stadiumViewBox(): string {
+  return getStadiumGraph().geo.venue.viewBox;
+}
