@@ -1,0 +1,21 @@
+# Files NOT uploaded to App Engine. App Engine reinstalls deps and runs
+# `npm run build` on its own, so source is all it needs. Note: app.yaml is the
+# deploy descriptor and is always uploaded even though it is gitignored.
+.git/
+.github/
+node_modules/
+.next/
+coverage/
+*.tsbuildinfo
+npm-debug.log*
+
+# Never upload local secrets — App Engine reads config from app.yaml env_variables.
+.env
+.env.*
+!.env.example
+
+# Tests and docs aren't needed at runtime.
+**/*.test.ts
+**/*.test.tsx
+src/test/
+docs/

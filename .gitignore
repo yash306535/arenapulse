@@ -21,5 +21,8 @@ coverage/
 # Editor settings
 .vscode/
 
+# App Engine descriptor with real secrets (deploy from app.example.yaml copy)
+app.yaml
+
 # TypeScript incremental build info
 *.tsbuildinfo

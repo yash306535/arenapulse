@@ -1,0 +1,32 @@
+# Google App Engine (standard, Node.js) deployment descriptor for ArenaPulse.
+#
+# SETUP: copy this file to `app.yaml` (which is gitignored) and fill in your
+# secrets, then deploy with `gcloud app deploy app.yaml`. Leave any key blank to
+# run that service in mock/demo mode. For production, prefer Secret Manager over
+# inline env_variables (see the README/notes).
+
+runtime: nodejs20
+
+# App Engine provides PORT=8080; `npm start` runs `next start`, which honors it.
+entrypoint: npm start
+
+instance_class: F4 # 1 GB / 2.4 GHz — comfortable headroom for `next start`.
+
+automatic_scaling:
+  min_instances: 0
+  max_instances: 2
+
+env_variables:
+  # NODE_ENV is intentionally omitted: `next start` sets production at runtime,
+  # and setting it here would make the App Engine build skip devDependencies
+  # (TypeScript/Tailwind) that `next build` needs.
+  # --- Gemini ---
+  GEMINI_API_KEY: ""
+  GEMINI_MODEL: "gemini-2.5-flash"
+  # --- Google Maps (server-side; proxied via /api/map-image) ---
+  GOOGLE_MAPS_API_KEY: ""
+  # --- Google Programmable Search (both required for live F8) ---
+  GOOGLE_SEARCH_API_KEY: ""
+  GOOGLE_SEARCH_CX: ""
+  # Set to "true" to force mock mode for all services.
+  MOCK_MODE: "false"
