@@ -60,7 +60,11 @@ export function normalizeSearchResponse(payload: unknown, query: string): Search
   };
 }
 
-function createRealSearchService(apiKey: string, cx: string): SearchService {
+/**
+ * Creates the live Programmable Search-backed service. Exported for unit
+ * testing with an injected `fetch`; production uses {@link getSearchService}.
+ */
+export function createRealSearchService(apiKey: string, cx: string): SearchService {
   const fallback = createMockSearchService();
   const cache = new TtlCache<SearchResponse>(SEARCH_CACHE_TTL_MS);
 

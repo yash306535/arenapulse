@@ -1,6 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { normalizeDirectionsResponse, stripHtml } from "./maps";
+import { createRealMapsService, normalizeDirectionsResponse, stripHtml } from "./maps";
 import { createMockMapsService } from "./maps.mock";
 
 describe("stripHtml", () => {
@@ -89,5 +89,83 @@ describe("createMockMapsService", () => {
     expect(typeof image.body).toBe("string");
     expect(image.body).toContain("Demo mode map");
     expect(image.body).toContain('role="img"');
+  });
+});
+
+describe("createRealMapsService (live path with injected fetch)", () => {
+  const directionsPayload = {
+    status: "OK",
+    routes: [
+      {
+        legs: [
+          {
+            duration: { value: 1200 },
+            distance: { value: 8000 },
+            steps: [
+              {
+                html_instructions: "Head to the <b>station</b>",
+                duration: { value: 600 },
+                distance: { value: 4000 },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("plans a journey from a live Directions response and caches it", async () => {
+    const fetchMock = vi.fn(() =>
+      Promise.resolve(new Response(JSON.stringify(directionsPayload), { status: 200 })),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    const service = createRealMapsService("test-key");
+
+    const plan = await service.planJourney("Centro", "transit");
+    expect(plan.mocked).toBe(false);
+    expect(plan.totalDurationMinutes).toBe(20);
+
+    await service.planJourney("Centro", "transit");
+    expect(fetchMock).toHaveBeenCalledTimes(1); // second call served from cache
+  });
+
+  it("falls back to the mock plan on an HTTP error", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => Promise.resolve(new Response("nope", { status: 500 }))),
+    );
+    const service = createRealMapsService("test-key");
+    const plan = await service.planJourney("Airport", "drive");
+    expect(plan.mocked).toBe(true);
+  });
+
+  it("returns live static map bytes with the upstream content type", async () => {
+    const bytes = new Uint8Array([137, 80, 78, 71]);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() =>
+        Promise.resolve(
+          new Response(bytes, { status: 200, headers: { "content-type": "image/png" } }),
+        ),
+      ),
+    );
+    const service = createRealMapsService("test-key");
+    const image = await service.staticMapImage({ width: 600, height: 400, zoom: 15 });
+    expect(image.contentType).toBe("image/png");
+    expect(image.body).toBeInstanceOf(ArrayBuffer);
+  });
+
+  it("falls back to the mock map when the static map call fails", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => Promise.reject(new Error("network down"))),
+    );
+    const service = createRealMapsService("test-key");
+    const image = await service.staticMapImage({ width: 600, height: 400, zoom: 15 });
+    expect(image.contentType).toBe("image/svg+xml");
   });
 });

@@ -1,6 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { normalizeSearchResponse } from "./search";
+import { createRealSearchService, normalizeSearchResponse } from "./search";
 import { createMockSearchService } from "./search.mock";
 
 describe("normalizeSearchResponse", () => {
@@ -56,5 +56,47 @@ describe("createMockSearchService", () => {
     const response = await service.search("mascot name");
     expect(response.results.length).toBeGreaterThanOrEqual(1);
     expect(response.results[0]?.title).toContain("fan guide");
+  });
+});
+
+describe("createRealSearchService (live path with injected fetch)", () => {
+  const payload = {
+    items: [
+      {
+        title: "Live fixture news",
+        snippet: "Latest updates.",
+        link: "https://news.example.com/wc26",
+        displayLink: "news.example.com",
+      },
+    ],
+  };
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("returns cited live results and caches repeated queries", async () => {
+    const fetchMock = vi.fn(() =>
+      Promise.resolve(new Response(JSON.stringify(payload), { status: 200 })),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    const service = createRealSearchService("test-key", "test-cx");
+
+    const first = await service.search("world cup schedule");
+    expect(first.mocked).toBe(false);
+    expect(first.results[0]?.source).toBe("news.example.com");
+
+    await service.search("world cup schedule");
+    expect(fetchMock).toHaveBeenCalledTimes(1); // cached
+  });
+
+  it("falls back to mock results on an HTTP error", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => Promise.resolve(new Response("boom", { status: 429 }))),
+    );
+    const service = createRealSearchService("test-key", "test-cx");
+    const response = await service.search("weather");
+    expect(response.mocked).toBe(true);
   });
 });

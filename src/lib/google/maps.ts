@@ -113,7 +113,11 @@ export function normalizeDirectionsResponse(
   };
 }
 
-function createRealMapsService(apiKey: string): MapsService {
+/**
+ * Creates the live Google Maps-backed service. Exported for unit testing with
+ * an injected `fetch`; production code obtains it via {@link getMapsService}.
+ */
+export function createRealMapsService(apiKey: string): MapsService {
   const fallback = createMockMapsService();
   const planCache = new TtlCache<TransitPlan>(TRANSIT_CACHE_TTL_MS);
 
