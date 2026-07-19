@@ -26,7 +26,7 @@ afterEach(() => {
 
 describe("AssistantChat", () => {
   it("sends a message and renders the streamed answer with sources", async () => {
-    const fetchMock = vi.fn(() =>
+    const fetchMock = vi.fn((_url: string | URL, _init?: RequestInit) =>
       Promise.resolve(
         sseResponse([
           'event: meta\ndata: {"mocked":true,"sources":[{"title":"Schedule","snippet":"s","url":"https://example.org/a","source":"example.org"}]}\n\n',
@@ -50,7 +50,7 @@ describe("AssistantChat", () => {
       "href",
       "https://example.org/a",
     );
-    const body = JSON.parse((fetchMock.mock.calls[0]?.[1] as RequestInit).body as string) as {
+    const body = JSON.parse((fetchMock.mock.calls[0]?.[1]?.body ?? "{}") as string) as {
       message: string;
     };
     expect(body.message).toBe("When does Gate A open?");

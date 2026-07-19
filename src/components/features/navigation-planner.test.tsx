@@ -53,7 +53,9 @@ describe("NavigationPlanner", () => {
   });
 
   it("submits and renders the computed steps and narration", async () => {
-    const fetchMock = vi.fn(() => Promise.resolve(new Response(JSON.stringify(routeResponse))));
+    const fetchMock = vi.fn((_url: string | URL, _init?: RequestInit) =>
+      Promise.resolve(new Response(JSON.stringify(routeResponse))),
+    );
     vi.stubGlobal("fetch", fetchMock);
     const user = userEvent.setup();
     renderWithProviders(
@@ -70,8 +72,8 @@ describe("NavigationPlanner", () => {
       expect(screen.getByText("Walk from Gate A to Section N1.")).toBeInTheDocument();
     });
     expect(screen.getByText(/Gate A \(North\) → Section N1/)).toBeInTheDocument();
-    const request = fetchMock.mock.calls[0]?.[1] as RequestInit;
-    expect(JSON.parse(request.body as string)).toMatchObject({ originId: "gate-a" });
+    const body = (fetchMock.mock.calls[0]?.[1]?.body ?? "{}") as string;
+    expect(JSON.parse(body)).toMatchObject({ originId: "gate-a" });
   });
 
   it("shows a no-route message on a 422 response", async () => {
