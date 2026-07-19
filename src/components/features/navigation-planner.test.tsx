@@ -54,7 +54,7 @@ describe("NavigationPlanner", () => {
 
   it("submits and renders the computed steps and narration", async () => {
     const fetchMock = vi.fn((_url: string | URL, _init?: RequestInit) =>
-      Promise.resolve(new Response(JSON.stringify(routeResponse))),
+      Promise.resolve(Response.json(routeResponse)),
     );
     vi.stubGlobal("fetch", fetchMock);
     const user = userEvent.setup();

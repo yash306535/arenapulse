@@ -128,6 +128,7 @@ Layering is strict: `app/` (routing + thin handlers) → `components/` (presenta
 - **Zod** — one runtime-validation layer for env, requests, responses, and untrusted AI JSON; types are derived with `z.infer` so shapes are never duplicated.
 - **Tailwind CSS v4** + small hand-rolled accessible components (Button, Card, Tabs, Dialog, Skeleton) — no heavy UI kit, lean bundle.
 - **Vitest + Testing Library + vitest-axe** — unit, integration, component, and accessibility tests.
+- **ESLint (typescript-eslint strict + SonarJS + Unicorn + jsx-a11y)** with complexity/cognitive-complexity budgets, Prettier, and an `.editorconfig` — code quality is enforced at `--max-warnings 0`.
 - **No database, no auth** — in-memory stores and JSON fixtures make the demo deterministic and runnable by judges with zero infrastructure. State is per-process and resets on restart (see Limitations).
 
 ---

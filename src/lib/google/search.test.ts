@@ -76,9 +76,7 @@ describe("createRealSearchService (live path with injected fetch)", () => {
   });
 
   it("returns cited live results and caches repeated queries", async () => {
-    const fetchMock = vi.fn(() =>
-      Promise.resolve(new Response(JSON.stringify(payload), { status: 200 })),
-    );
+    const fetchMock = vi.fn(() => Promise.resolve(Response.json(payload, { status: 200 })));
     vi.stubGlobal("fetch", fetchMock);
     const service = createRealSearchService("test-key", "test-cx");
 

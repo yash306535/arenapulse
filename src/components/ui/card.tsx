@@ -8,7 +8,7 @@ export function Card({
   className,
   children,
   ...rest
-}: HTMLAttributes<HTMLDivElement>): React.JSX.Element {
+}: Readonly<HTMLAttributes<HTMLDivElement>>): React.JSX.Element {
   return (
     <div
       className={cn(

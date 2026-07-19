@@ -74,7 +74,7 @@ export const standardRateLimiter = new SlidingWindowRateLimiter(STANDARD_RATE_LI
  */
 export function getClientKey(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
-  const first = forwarded?.split(",")[0]?.trim();
+  const first = forwarded?.split(",", 1)[0]?.trim();
   if (first !== undefined && first !== "") {
     return first;
   }

@@ -11,7 +11,7 @@ export const AI_RATE_LIMIT_MAX_REQUESTS = 20;
 export const STANDARD_RATE_LIMIT_MAX_REQUESTS = 60;
 
 /** Upper bound for a single chat message, in characters. */
-export const MAX_CHAT_MESSAGE_LENGTH = 2_000;
+export const MAX_CHAT_MESSAGE_LENGTH = 2000;
 /** Upper bound for retained chat history turns sent to the model. */
 export const MAX_CHAT_HISTORY_TURNS = 20;
 /** Upper bound for free-text query fields (search, destinations). */
@@ -19,7 +19,7 @@ export const MAX_QUERY_LENGTH = 200;
 /** Upper bound for incident descriptions logged by venue staff. */
 export const MAX_INCIDENT_DESCRIPTION_LENGTH = 500;
 /** Upper bound for text submitted to the plain-language simplifier. */
-export const MAX_SIMPLIFY_TEXT_LENGTH = 4_000;
+export const MAX_SIMPLIFY_TEXT_LENGTH = 4000;
 
 /** TTL for cached Google Programmable Search results. */
 export const SEARCH_CACHE_TTL_MS = 5 * 60_000;
@@ -33,10 +33,10 @@ export const CACHE_MAX_ENTRIES = 200;
 /** Abort outbound Gemini/Maps/Search requests after this long. */
 export const OUTBOUND_REQUEST_TIMEOUT_MS = 15_000;
 /** Cap on model output size — bounds cost and prompt-injection blast radius. */
-export const MAX_AI_OUTPUT_TOKENS = 1_024;
+export const MAX_AI_OUTPUT_TOKENS = 1024;
 
 /** How often clients poll the simulated crowd feed. */
-export const CROWD_POLL_INTERVAL_MS = 5_000;
+export const CROWD_POLL_INTERVAL_MS = 5000;
 /** Debounce applied to destination/search text inputs. */
 export const SEARCH_DEBOUNCE_MS = 300;
 /** Fixed seed so the crowd simulator is deterministic across runs. */

@@ -54,7 +54,7 @@ export function SustainabilityHub({ modes }: { readonly modes: ModeOption[] }): 
   return (
     <div className="space-y-4">
       <PageHeader title={t.sustainability.heading} description={t.sustainability.description}>
-        {result !== null ? <DemoBadge mocked={result.mocked} label={t.common.demoMode} /> : null}
+        {result === null ? null : <DemoBadge mocked={result.mocked} label={t.common.demoMode} />}
       </PageHeader>
 
       <form

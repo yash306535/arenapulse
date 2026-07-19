@@ -29,42 +29,70 @@ export function findRoute(graph: StadiumGraph, query: RouteQuery): RouteResult |
     return { nodeIds: [originId], steps: [], totalDistanceMeters: 0, stepFree: true };
   }
 
-  const distances = new Map<string, number>([[originId, 0]]);
-  const previous = new Map<string, string>();
+  const state: DijkstraState = {
+    distances: new Map<string, number>([[originId, 0]]),
+    previous: new Map<string, string>(),
+  };
   const unvisited = new Set<string>(graph.nodesById.keys());
 
   while (unvisited.size > 0) {
-    let current: string | undefined;
-    let currentDistance = Number.POSITIVE_INFINITY;
-    for (const nodeId of unvisited) {
-      const distance = distances.get(nodeId);
-      if (distance !== undefined && distance < currentDistance) {
-        current = nodeId;
-        currentDistance = distance;
-      }
-    }
+    const current = nearestUnvisited(unvisited, state.distances);
     if (current === undefined || current === destinationId) {
       break;
     }
     unvisited.delete(current);
-
-    for (const edge of graph.adjacency.get(current) ?? []) {
-      if (stepFreeOnly && !edge.stepFree) {
-        continue;
-      }
-      const candidate = currentDistance + edge.distanceMeters;
-      const known = distances.get(edge.to);
-      if (known === undefined || candidate < known) {
-        distances.set(edge.to, candidate);
-        previous.set(edge.to, current);
-      }
-    }
+    const currentDistance = state.distances.get(current) ?? Number.POSITIVE_INFINITY;
+    relaxNeighbors(graph, current, currentDistance, stepFreeOnly, state);
   }
 
-  if (!distances.has(destinationId)) {
+  if (!state.distances.has(destinationId)) {
     return null;
   }
-  return assembleRoute(graph, originId, destinationId, previous);
+  return assembleRoute(graph, originId, destinationId, state.previous);
+}
+
+/** Mutable Dijkstra bookkeeping shared by the frontier scan and edge relaxation. */
+interface DijkstraState {
+  readonly distances: Map<string, number>;
+  readonly previous: Map<string, string>;
+}
+
+/** Returns the unvisited node with the smallest known distance, or undefined. */
+function nearestUnvisited(
+  unvisited: ReadonlySet<string>,
+  distances: ReadonlyMap<string, number>,
+): string | undefined {
+  let nearest: string | undefined;
+  let best = Number.POSITIVE_INFINITY;
+  for (const nodeId of unvisited) {
+    const distance = distances.get(nodeId);
+    if (distance !== undefined && distance < best) {
+      nearest = nodeId;
+      best = distance;
+    }
+  }
+  return nearest;
+}
+
+/** Relaxes the outgoing edges of `current`, updating shortest distances and predecessors. */
+function relaxNeighbors(
+  graph: StadiumGraph,
+  current: string,
+  currentDistance: number,
+  stepFreeOnly: boolean,
+  state: DijkstraState,
+): void {
+  for (const edge of graph.adjacency.get(current) ?? []) {
+    if (stepFreeOnly && !edge.stepFree) {
+      continue;
+    }
+    const candidate = currentDistance + edge.distanceMeters;
+    const known = state.distances.get(edge.to);
+    if (known === undefined || candidate < known) {
+      state.distances.set(edge.to, candidate);
+      state.previous.set(edge.to, current);
+    }
+  }
 }
 
 function assembleRoute(
@@ -100,7 +128,7 @@ function buildStep(graph: StadiumGraph, fromId: string, toId: string): RouteStep
   const edge = (graph.adjacency.get(fromId) ?? []).find((candidate) => candidate.to === toId);
   const fromNode = graph.nodesById.get(fromId);
   const toNode = graph.nodesById.get(toId);
-  if (edge === undefined || fromNode === undefined || toNode === undefined) {
+  if (!edge || !fromNode || !toNode) {
     throw new Error(`Inconsistent route segment ${fromId} -> ${toId}`);
   }
   return {

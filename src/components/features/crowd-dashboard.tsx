@@ -174,7 +174,7 @@ export function CrowdDashboard({
           >
             {loadingRec ? t.common.loading : t.crowd.getRecommendations}
           </Button>
-          {recommendation !== null ? (
+          {recommendation === null ? null : (
             <div className="space-y-3" aria-live="polite">
               <p className="text-sm">{recommendation.summary}</p>
               <RecommendationList
@@ -194,7 +194,7 @@ export function CrowdDashboard({
                 )}
               />
             </div>
-          ) : null}
+          )}
         </Card>
       ) : null}
     </div>

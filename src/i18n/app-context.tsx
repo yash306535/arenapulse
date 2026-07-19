@@ -46,7 +46,7 @@ function writeParam(key: string, value: string): void {
  * fan/English for SSR safety, then reconcile from the URL after mount to avoid
  * hydration mismatches.
  */
-export function AppProvider({ children }: { children: ReactNode }): React.JSX.Element {
+export function AppProvider({ children }: { readonly children: ReactNode }): React.JSX.Element {
   const [role, setRoleState] = useState<Role>("fan");
   const [uiLanguage, setLanguageState] = useState<UiLanguage>("en");
 

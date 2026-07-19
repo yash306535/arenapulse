@@ -27,7 +27,7 @@ describe("SustainabilityHub", () => {
   it("compares travel modes and renders the tip", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(() => Promise.resolve(new Response(JSON.stringify(payload)))),
+      vi.fn(() => Promise.resolve(Response.json(payload))),
     );
     const user = userEvent.setup();
     renderWithProviders(<SustainabilityHub modes={modes} />);

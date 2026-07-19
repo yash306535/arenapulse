@@ -39,10 +39,10 @@ function mockFetch(): void {
     vi.fn((url: string | URL, init?: RequestInit) => {
       const target = String(url);
       if (target.includes("/api/ops/briefing")) {
-        return Promise.resolve(new Response(JSON.stringify(briefingPayload)));
+        return Promise.resolve(Response.json(briefingPayload));
       }
       if (target.includes("/api/ops/incidents") && (init?.method ?? "GET") === "GET") {
-        return Promise.resolve(new Response(JSON.stringify(incidentsPayload)));
+        return Promise.resolve(Response.json(incidentsPayload));
       }
       return Promise.resolve(new Response("{}", { status: 404 }));
     }),

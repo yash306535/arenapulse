@@ -61,7 +61,7 @@ export function TransitPlanner({
   return (
     <div className="space-y-4">
       <PageHeader title={t.transit.heading} description={t.transit.description}>
-        {result !== null ? <DemoBadge mocked={result.mocked} label={t.common.demoMode} /> : null}
+        {result === null ? null : <DemoBadge mocked={result.mocked} label={t.common.demoMode} />}
       </PageHeader>
 
       <form onSubmit={submit} className="grid gap-4 sm:grid-cols-3" aria-label={t.transit.heading}>

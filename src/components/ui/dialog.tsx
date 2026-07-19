@@ -40,7 +40,7 @@ export function Dialog({
       if (event.key !== "Tab" || panelRef.current === null) {
         return;
       }
-      const focusables = Array.from(panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE));
+      const focusables = [...panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)];
       const first = focusables[0];
       const last = focusables.at(-1);
       if (first === undefined || last === undefined) {

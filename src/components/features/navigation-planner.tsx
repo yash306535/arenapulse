@@ -89,7 +89,7 @@ export function NavigationPlanner({
   return (
     <div className="space-y-4">
       <PageHeader title={t.navigation.heading} description={t.navigation.description}>
-        {result !== null ? <DemoBadge mocked={result.mocked} label={t.common.demoMode} /> : null}
+        {result === null ? null : <DemoBadge mocked={result.mocked} label={t.common.demoMode} />}
       </PageHeader>
 
       <form

@@ -17,7 +17,7 @@ describe("requestJson", () => {
   it("returns parsed JSON on success", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(() => Promise.resolve(new Response(JSON.stringify({ ok: true })))),
+      vi.fn(() => Promise.resolve(Response.json({ ok: true }))),
     );
     await expect(requestJson<{ ok: boolean }>("/x")).resolves.toEqual({ ok: true });
     vi.unstubAllGlobals();

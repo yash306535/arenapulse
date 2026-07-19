@@ -21,10 +21,13 @@ export function parseModelJson<T>(schema: z.ZodType<T>, raw: string | undefined)
   if (raw === undefined || raw.trim() === "") {
     throw new AiOutputError("Model returned an empty response");
   }
+  // Strip an optional ```json … ``` code fence, then re-trim. Using trim()
+  // instead of `\s*` in the pattern avoids regex backtracking (ReDoS-safe).
   const cleaned = raw
     .trim()
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/\s*```$/, "");
+    .replace(/^```(?:json)?/i, "")
+    .replace(/```$/, "")
+    .trim();
   let data: unknown;
   try {
     data = JSON.parse(cleaned);

@@ -11,11 +11,11 @@ import type { TransitPlan, TravelMode } from "@/schemas/transit";
 
 /** Stable non-cryptographic string hash → [0, 1). */
 function originFactor(origin: string): number {
-  let h = 2166136261;
+  let h = 2_166_136_261;
   for (const char of origin.toLowerCase()) {
-    h = Math.imul(h ^ (char.codePointAt(0) ?? 0), 16777619);
+    h = Math.imul(h ^ (char.codePointAt(0) ?? 0), 16_777_619);
   }
-  return (h >>> 0) / 0x1_0000_0000;
+  return (h >>> 0) / 0x1_00_00_00_00;
 }
 
 /** Journey distance in km, deterministic in [4, 18). */
@@ -26,11 +26,10 @@ function distanceKmFor(origin: string): number {
 function buildPlan(origin: string, mode: TravelMode): TransitPlan {
   const distanceKm = distanceKmFor(origin);
   const destination = venueName();
-  const round = (value: number): number => Math.round(value);
 
   let steps: TransitPlan["steps"];
   if (mode === "transit") {
-    const rideMinutes = round((distanceKm / 30) * 60);
+    const rideMinutes = Math.round((distanceKm / 30) * 60);
     steps = [
       {
         instruction: `Walk from ${origin} to the nearest metro station`,
@@ -49,7 +48,7 @@ function buildPlan(origin: string, mode: TravelMode): TransitPlan {
       },
     ];
   } else if (mode === "drive") {
-    const driveMinutes = round((distanceKm / 28) * 60) + 6;
+    const driveMinutes = Math.round((distanceKm / 28) * 60) + 6;
     steps = [
       {
         instruction: `Drive from ${origin} via the stadium expressway`,
@@ -63,7 +62,7 @@ function buildPlan(origin: string, mode: TravelMode): TransitPlan {
     steps = [
       {
         instruction: `Walk from ${origin} to the stadium following the fan route signage`,
-        durationMinutes: round((distanceKm / 4.5) * 60),
+        durationMinutes: Math.round((distanceKm / 4.5) * 60),
         distanceKm,
       },
     ];

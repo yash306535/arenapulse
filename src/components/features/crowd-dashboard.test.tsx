@@ -45,9 +45,9 @@ function mockFetch(): void {
     "fetch",
     vi.fn((url: string | URL) => {
       if (String(url).includes("/recommend")) {
-        return Promise.resolve(new Response(JSON.stringify(recommendPayload)));
+        return Promise.resolve(Response.json(recommendPayload));
       }
-      return Promise.resolve(new Response(JSON.stringify(snapshot)));
+      return Promise.resolve(Response.json(snapshot));
     }),
   );
 }

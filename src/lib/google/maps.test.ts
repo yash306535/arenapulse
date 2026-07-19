@@ -120,7 +120,7 @@ describe("createRealMapsService (live path with injected fetch)", () => {
 
   it("plans a journey from a live Directions response and caches it", async () => {
     const fetchMock = vi.fn(() =>
-      Promise.resolve(new Response(JSON.stringify(directionsPayload), { status: 200 })),
+      Promise.resolve(Response.json(directionsPayload, { status: 200 })),
     );
     vi.stubGlobal("fetch", fetchMock);
     const service = createRealMapsService("test-key");

@@ -32,7 +32,7 @@ export class HttpError extends Error {
 
 /** Serializes `data` as a JSON response with the given status. */
 export function jsonResponse(data: unknown, status = 200): Response {
-  return new Response(JSON.stringify(data), {
+  return Response.json(data, {
     status,
     headers: { "content-type": JSON_CONTENT_TYPE },
   });
@@ -46,7 +46,7 @@ export function errorResponse(
   headers?: Readonly<Record<string, string>>,
 ): Response {
   const envelope: ErrorEnvelope = { error: { code, message } };
-  return new Response(JSON.stringify(envelope), {
+  return Response.json(envelope, {
     status,
     headers: { "content-type": JSON_CONTENT_TYPE, ...headers },
   });

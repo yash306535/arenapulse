@@ -141,7 +141,7 @@ const SIMPLIFICATIONS: readonly [RegExp, string][] = [
   [/\bpurchase\b/gi, "buy"],
   [/\badditional\b/gi, "more"],
   [/\bassistance\b/gi, "help"],
-  [/\bcommence(s|d)?\b/gi, "start$1"],
+  [/\bcommence([sd])?\b/gi, "start$1"],
   [/\bdepart(s|ed)?\b/gi, "leave$1"],
 ];
 
@@ -179,9 +179,9 @@ export function createMockGeminiService(): GeminiService {
 
     sustainabilityTip(comparison: ModeComparison[], mode: string): Promise<string> {
       const current = comparison.find((entry) => entry.mode === mode);
-      const best = comparison.find((entry) => entry.mode !== "walk" && entry.mode !== "bike");
+      const best = comparison.find((entry) => !["walk", "bike"].includes(entry.mode));
       const greenest = comparison[0];
-      if (current === undefined || greenest === undefined || best === undefined) {
+      if (!current || !greenest || !best) {
         return Promise.resolve("Travel light, refill your bottle, and recycle on the concourse.");
       }
       const saving = current.gramsCo2e - best.gramsCo2e;

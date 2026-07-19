@@ -19,9 +19,7 @@ describe("AccessCompanion", () => {
   it("simplifies an announcement via the API", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(() =>
-        Promise.resolve(new Response(JSON.stringify({ text: "Gate A opens soon.", mocked: true }))),
-      ),
+      vi.fn(() => Promise.resolve(Response.json({ text: "Gate A opens soon.", mocked: true }))),
     );
     const user = userEvent.setup();
     renderWithProviders(<AccessCompanion services={services} />);

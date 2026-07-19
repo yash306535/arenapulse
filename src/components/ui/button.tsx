@@ -5,9 +5,9 @@ import { cn } from "./cn";
 
 type Variant = "primary" | "secondary" | "ghost";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonProps = Readonly<ButtonHTMLAttributes<HTMLButtonElement>> & {
   readonly variant?: Variant;
-}
+};
 
 const VARIANTS: Record<Variant, string> = {
   primary: "bg-emerald-700 text-white hover:bg-emerald-800 disabled:bg-emerald-700/50",

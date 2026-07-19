@@ -148,7 +148,7 @@ export function OpsCenter({ zones }: { readonly zones: ZoneOption[] }): React.JS
         </Button>
         <DemoBadge mocked={briefingMocked && briefing !== null} label={t.common.demoMode} />
       </div>
-      {briefing !== null ? (
+      {briefing === null ? null : (
         <Card className="space-y-3" aria-live="polite">
           <h3 className="text-lg font-semibold">{briefing.headline}</h3>
           <p className="text-sm">{briefing.overview}</p>
@@ -173,7 +173,7 @@ export function OpsCenter({ zones }: { readonly zones: ZoneOption[] }): React.JS
             </div>
           ) : null}
         </Card>
-      ) : null}
+      )}
     </div>
   );
 

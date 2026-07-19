@@ -42,9 +42,7 @@ describe("field primitives", () => {
   it("LabeledCheckbox toggles", async () => {
     const onCheckedChange = vi.fn();
     const user = userEvent.setup();
-    render(
-      <LabeledCheckbox label="Step-free" checked={false} onCheckedChange={onCheckedChange} />,
-    );
+    render(<LabeledCheckbox label="Step-free" checked={false} onCheckedChange={onCheckedChange} />);
     await user.click(screen.getByLabelText("Step-free"));
     expect(onCheckedChange).toHaveBeenCalledWith(true);
   });

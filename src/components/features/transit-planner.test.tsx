@@ -30,7 +30,7 @@ describe("TransitPlanner", () => {
   it("plans a trip and renders steps, advice, and leave-by time", async () => {
     vi.stubGlobal(
       "fetch",
-      vi.fn(() => Promise.resolve(new Response(JSON.stringify(payload)))),
+      vi.fn(() => Promise.resolve(Response.json(payload))),
     );
     const user = userEvent.setup();
     renderWithProviders(<TransitPlanner matches={matches} />);

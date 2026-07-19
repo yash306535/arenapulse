@@ -85,6 +85,22 @@ function baseConfig(temperature: number): {
   };
 }
 
+/** Runs a live call and degrades to a mock-twin result on any failure. */
+async function withFallback<T>(
+  operation: string,
+  live: () => Promise<T>,
+  mock: () => Promise<T>,
+): Promise<T> {
+  try {
+    return await live();
+  } catch (error) {
+    logger.error(`Gemini ${operation} failed; serving mock fallback`, {
+      reason: error instanceof Error ? error.message : "unknown",
+    });
+    return mock();
+  }
+}
+
 /**
  * Creates the live Gemini-backed service. The models client is injectable so
  * tests can exercise streaming, JSON validation, retry, and fallback logic
@@ -160,22 +176,6 @@ export function createRealGeminiService(models: GenerativeModelsClient): GeminiS
         reason: error instanceof Error ? error.message : "unknown",
       });
       yield* fallback.streamChat(request);
-    }
-  }
-
-  /** Runs a live call and degrades to the mock twin on any failure. */
-  async function withFallback<T>(
-    operation: string,
-    live: () => Promise<T>,
-    mock: () => Promise<T>,
-  ): Promise<T> {
-    try {
-      return await live();
-    } catch (error) {
-      logger.error(`Gemini ${operation} failed; serving mock fallback`, {
-        reason: error instanceof Error ? error.message : "unknown",
-      });
-      return mock();
     }
   }
 

@@ -26,13 +26,13 @@ const RHYTHM_PERIOD_BUCKETS = 120;
 
 /** Deterministic 32-bit hash → [0, 1) noise for a (seed, zone, bucket) triple. */
 function noise(seed: number, zoneIndex: number, bucket: number): number {
-  let h = Math.imul(seed ^ 0x9e3779b9, 0x85ebca6b);
-  h = Math.imul(h ^ (zoneIndex + 0x1656667b), 0xc2b2ae35);
-  h = Math.imul(h ^ (bucket + 0x27d4eb2f), 0x165667b1);
+  let h = Math.imul(seed ^ 0x9e_37_79_b9, 0x85_eb_ca_6b);
+  h = Math.imul(h ^ (zoneIndex + 0x16_56_66_7b), 0xc2_b2_ae_35);
+  h = Math.imul(h ^ (bucket + 0x27_d4_eb_2f), 0x16_56_67_b1);
   h ^= h >>> 15;
-  h = Math.imul(h, 0x2545f491);
+  h = Math.imul(h, 0x25_45_f4_91);
   h ^= h >>> 13;
-  return (h >>> 0) / 0x1_0000_0000;
+  return (h >>> 0) / 0x1_00_00_00_00;
 }
 
 function utilizationAt(seed: number, zoneIndex: number, bucket: number): number {
