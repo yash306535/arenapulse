@@ -170,3 +170,81 @@ describe("parseModelJson", () => {
     expect(() => parseModelJson(schema, '{"ok": "yes"}')).toThrow(AiOutputError);
   });
 });
+
+describe("createRealGeminiService route/tip/transit/briefing", () => {
+  const route = {
+    nodeIds: ["gate-a", "conc-n"],
+    steps: [
+      {
+        fromId: "gate-a",
+        toId: "conc-n",
+        fromLabel: "Gate A",
+        toLabel: "North Concourse",
+        distanceMeters: 60,
+        via: "ramp" as const,
+        stepFree: true,
+      },
+    ],
+    totalDistanceMeters: 60,
+    stepFree: true,
+  };
+
+  const plan = {
+    origin: "Centro",
+    destination: "ArenaPulse Demo Stadium",
+    mode: "transit" as const,
+    steps: [{ instruction: "Ride the metro", durationMinutes: 20, distanceKm: 8 }],
+    totalDurationMinutes: 20,
+    totalDistanceKm: 8,
+    mocked: false,
+  };
+
+  const comparison = [
+    { mode: "metro" as const, label: "Metro", gramsCo2e: 100, savedVsCarGrams: 200 },
+  ];
+
+  it("narrates a route from model text", async () => {
+    const generateContent = vi.fn().mockResolvedValue({ text: "1. Head north." });
+    const service = createRealGeminiService(fakeClient({ generateContent }));
+    expect(await service.narrateRoute(route, "en")).toBe("1. Head north.");
+  });
+
+  it("narrates via the mock when the model call fails", async () => {
+    const generateContent = vi.fn().mockRejectedValue(new Error("down"));
+    const service = createRealGeminiService(fakeClient({ generateContent }));
+    expect(await service.narrateRoute(route, "en")).toContain("route");
+  });
+
+  it("produces a sustainability tip from model text", async () => {
+    const generateContent = vi.fn().mockResolvedValue({ text: "Take the metro." });
+    const service = createRealGeminiService(fakeClient({ generateContent }));
+    expect(await service.sustainabilityTip(comparison, "metro")).toBe("Take the metro.");
+  });
+
+  it("produces transit advice from model text", async () => {
+    const generateContent = vi.fn().mockResolvedValue({ text: "Leave by 17:00." });
+    const service = createRealGeminiService(fakeClient({ generateContent }));
+    const advice = await service.transitAdvice(
+      plan,
+      "2026-06-11T19:00:00-06:00",
+      "2026-06-11T17:00:00-06:00",
+    );
+    expect(advice).toBe("Leave by 17:00.");
+  });
+
+  it("parses a valid briefing on the first attempt", async () => {
+    const briefing = {
+      headline: "One open incident",
+      overview: "Overview.",
+      keyPoints: ["Watch Gate A"],
+      risks: [],
+      staffingActions: [],
+      zonesToWatch: [],
+    };
+    const generateContent = vi.fn().mockResolvedValue({ text: JSON.stringify(briefing) });
+    const service = createRealGeminiService(fakeClient({ generateContent }));
+    const result = await service.generateBriefing(listIncidents(), snapshot);
+    expect(result.headline).toBe("One open incident");
+    expect(generateContent).toHaveBeenCalledTimes(1);
+  });
+});

@@ -39,4 +39,17 @@ describe("SustainabilityHub", () => {
     expect(screen.getByText("Carbon comparison")).toBeInTheDocument();
     expect(screen.getByRole("cell", { name: "280" })).toBeInTheDocument();
   });
+
+  it("shows an error alert when the request fails", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => Promise.resolve(new Response("boom", { status: 500 }))),
+    );
+    const user = userEvent.setup();
+    renderWithProviders(<SustainabilityHub modes={modes} />);
+    await user.click(screen.getByRole("button", { name: "Compare impact" }));
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent("Something went wrong");
+    });
+  });
 });

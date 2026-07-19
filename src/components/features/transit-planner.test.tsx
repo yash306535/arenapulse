@@ -43,4 +43,18 @@ describe("TransitPlanner", () => {
     expect(screen.getByText("Leave by 17:00 to be safe.")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Map of the stadium area" })).toBeInTheDocument();
   });
+
+  it("shows an error alert when the request fails", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => Promise.resolve(new Response("boom", { status: 500 }))),
+    );
+    const user = userEvent.setup();
+    renderWithProviders(<TransitPlanner matches={matches} />);
+    await user.type(screen.getByLabelText("Starting location"), "Downtown");
+    await user.click(screen.getByRole("button", { name: "Plan my trip" }));
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent("Something went wrong");
+    });
+  });
 });

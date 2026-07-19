@@ -180,9 +180,9 @@ Secrets are read **only** in `src/lib/env.ts`, never exposed via `NEXT_PUBLIC_*`
 
 ## Testing & coverage
 
-- **221 tests** across unit (schemas, env, pathfinder, simulator, cache, rate limiter, carbon, prompts, AI JSON parsing), integration (every API route: happy path, validation 400s, rate-limit 429s, mock-mode), component (role/language switchers, streaming chat, navigation, ops briefing, every feature screen), and **axe accessibility scans** (zero violations on Home, Assistant, Navigation, Crowd, Ops, and more).
+- **239 tests** across unit (schemas, env, logger, pathfinder, simulator, cache, rate limiter, carbon, prompts, AI JSON parsing, live Gemini service with an injected client), integration (every API route: happy path, validation 400s, rate-limit 429s, mock-mode), component (role/language switchers, form primitives, the API-action hook, streaming chat, navigation, ops briefing, every feature screen), and **axe accessibility scans** (zero violations on Home, Assistant, Navigation, Crowd, Ops, and more).
 - Tests never touch the network — Gemini/Maps/Search are exercised through their mock twins or an injected `fetch`.
-- Coverage thresholds are enforced in `vitest.config.ts`: **≥ 85 % statements/lines for `src/lib` and `src/app/api`**, ≥ 70 % overall. Latest run: ~88 % statements / ~88 % lines overall.
+- Coverage thresholds are enforced in `vitest.config.ts`: **≥ 88 % statements/lines for `src/lib`**, ≥ 85 % for `src/app/api`, and ≥ 85 % statements/lines overall. Latest run: ~91 % statements / ~91 % lines overall.
 
 ```bash
 npm run test:coverage
