@@ -44,3 +44,17 @@ export const CROWD_SIMULATOR_SEED = 20_260_611;
 
 /** Number of search results requested from Google Programmable Search. */
 export const SEARCH_RESULT_COUNT = 5;
+
+/** Gate + security queue buffer applied before kickoff when planning arrivals. */
+export const ARRIVAL_BUFFER_MINUTES = 90;
+/** Demo venue coordinates used for static map rendering (fictional location). */
+export const STADIUM_LAT = 20.6767;
+export const STADIUM_LNG = -103.3475;
+/** Static map proxy bounds — requests outside these are rejected. */
+export const STATIC_MAP_MIN_SIZE_PX = 100;
+export const STATIC_MAP_MAX_SIZE_PX = 1200;
+export const STATIC_MAP_MIN_ZOOM = 10;
+export const STATIC_MAP_MAX_ZOOM = 18;
+export const STATIC_MAP_DEFAULT_ZOOM = 15;
+/** Cap on stored incidents so the in-memory ops log cannot grow unbounded. */
+export const MAX_STORED_INCIDENTS = 200;
