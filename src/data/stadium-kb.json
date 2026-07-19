@@ -1,0 +1,77 @@
+{
+  "venue": "ArenaPulse Demo Stadium",
+  "entries": [
+    {
+      "id": "kb-gates",
+      "topic": "gates",
+      "question": "When do the gates open and which gate should I use?",
+      "answer": "Gates open 3 hours before kickoff. Gate A is on the north side, Gate B east, Gate C south, and Gate D west. Your ticket lists a recommended gate; any gate admits any valid ticket, but using the recommended one is usually fastest."
+    },
+    {
+      "id": "kb-prohibited",
+      "topic": "prohibited-items",
+      "question": "What items are prohibited inside the stadium?",
+      "answer": "Prohibited items include glass bottles, cans, aerosols, fireworks, weapons of any kind, drones, laser pointers, and bags larger than 25 x 35 x 15 cm. Empty reusable water bottles up to 1 litre are welcome and can be filled at water refill stations."
+    },
+    {
+      "id": "kb-seats",
+      "topic": "seating",
+      "question": "How do I find my seat?",
+      "answer": "Your ticket shows a section (for example N1 or E2), a row, and a seat number. Follow concourse signs to your section. Sections N1 and N2 are reached from the North Concourse, E1 and E2 from the East Concourse, S1 and S2 from the South Concourse, and W1 and W2 from the West Concourse. Stewards in yellow vests can help."
+    },
+    {
+      "id": "kb-food",
+      "topic": "food",
+      "question": "Where can I buy food and drinks?",
+      "answer": "Food courts are located on the Northeast and Southwest concourses, with smaller kiosks near every gate. Card and contactless payment are accepted everywhere; some kiosks are cash-free. Free water refill stations are on the North, East, and South concourses."
+    },
+    {
+      "id": "kb-prayer",
+      "topic": "prayer-room",
+      "question": "Is there a prayer room?",
+      "answer": "Yes. A multi-faith prayer room is on the Northwest Concourse, open from gate opening until one hour after the final whistle. It is quiet, carpeted, and has washing facilities nearby."
+    },
+    {
+      "id": "kb-first-aid",
+      "topic": "first-aid",
+      "question": "Where is first aid?",
+      "answer": "First aid posts are on the North Concourse (next to the recycling point) and the South Concourse. In an emergency, alert the nearest steward or call the number printed on your ticket; medical teams can reach any seat in under four minutes."
+    },
+    {
+      "id": "kb-accessibility",
+      "topic": "accessibility",
+      "question": "What accessibility services are available?",
+      "answer": "Accessible seating platforms are on the East and West concourses, reached step-free via ramps and elevators. A sensory-friendly quiet room is on the Northeast Concourse. Assistive-listening receivers can be picked up at the Gate A information desk. All restrooms have accessible stalls, and step-free routes are signposted with the wheelchair symbol."
+    },
+    {
+      "id": "kb-sensory",
+      "topic": "sensory-room",
+      "question": "Is there a sensory-friendly space?",
+      "answer": "Yes. The sensory-friendly quiet room on the Northeast Concourse offers reduced noise and lighting, comfortable seating, and a live feed of the match with adjustable volume. Ear defenders are available to borrow at the Gate A information desk."
+    },
+    {
+      "id": "kb-reentry",
+      "topic": "re-entry",
+      "question": "Can I leave the stadium and come back in?",
+      "answer": "No. For safety and ticketing reasons there is no re-entry once your ticket has been scanned. If you have an urgent reason to leave and return, speak to a supervisor at any gate."
+    },
+    {
+      "id": "kb-lost-found",
+      "topic": "lost-and-found",
+      "question": "Where is lost and found?",
+      "answer": "Lost and found is at the Gate A information desk during the event. After match day, items are held for 30 days; contact the venue through the official tournament app or website."
+    },
+    {
+      "id": "kb-water",
+      "topic": "water-refill",
+      "question": "Where can I refill my water bottle?",
+      "answer": "Free water refill stations are on the North, East, and South concourses. Empty reusable bottles up to 1 litre are allowed through security. Refilling instead of buying single-use bottles is the single biggest sustainability win for fans."
+    },
+    {
+      "id": "kb-bags",
+      "topic": "bag-policy",
+      "question": "What is the bag policy?",
+      "answer": "Bags up to 25 x 35 x 15 cm are allowed and will be searched at the gate. Larger bags must be stored at the off-site bag drop near the transit hub, which closes two hours after the match ends. Arriving without a bag speeds up entry considerably."
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "incidents": [
+    {
+      "id": "inc-001",
+      "createdAtIso": "2026-07-04T16:20:00-06:00",
+      "zoneId": "zone-gate-a",
+      "category": "crowd",
+      "severity": "medium",
+      "status": "monitoring",
+      "description": "Queue at Gate A exceeding 20 minutes; two additional lanes opened.",
+      "reportedBy": "staff"
+    },
+    {
+      "id": "inc-002",
+      "createdAtIso": "2026-07-04T16:45:00-06:00",
+      "zoneId": "zone-conc-n",
+      "category": "medical",
+      "severity": "high",
+      "status": "resolved",
+      "description": "Fan fainted near the North Concourse water refill point; treated on site by first aid team.",
+      "reportedBy": "volunteer"
+    },
+    {
+      "id": "inc-003",
+      "createdAtIso": "2026-07-04T17:05:00-06:00",
+      "zoneId": "zone-food-ne",
+      "category": "facilities",
+      "severity": "low",
+      "status": "open",
+      "description": "Spillage at Northeast Food Court counter 3; cleaning crew requested.",
+      "reportedBy": "staff"
+    },
+    {
+      "id": "inc-004",
+      "createdAtIso": "2026-07-04T17:30:00-06:00",
+      "zoneId": "zone-gate-c",
+      "category": "security",
+      "severity": "medium",
+      "status": "resolved",
+      "description": "Unattended bag at Gate C plaza; inspected and reunited with owner.",
+      "reportedBy": "staff"
+    },
+    {
+      "id": "inc-005",
+      "createdAtIso": "2026-07-04T18:10:00-06:00",
+      "zoneId": "zone-conc-e",
+      "category": "lost-item",
+      "severity": "low",
+      "status": "open",
+      "description": "Child's backpack found near East Concourse elevator; handed to Gate A lost and found.",
+      "reportedBy": "volunteer"
+    },
+    {
+      "id": "inc-006",
+      "createdAtIso": "2026-07-04T18:25:00-06:00",
+      "zoneId": "zone-conc-s",
+      "category": "crowd",
+      "severity": "medium",
+      "status": "monitoring",
+      "description": "South Concourse density rising ahead of halftime; stewards repositioned to exits.",
+      "reportedBy": "staff"
+    }
+  ]
+}

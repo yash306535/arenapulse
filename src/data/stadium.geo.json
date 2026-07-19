@@ -1,0 +1,441 @@
+{
+  "venue": {
+    "name": "ArenaPulse Demo Stadium",
+    "viewBox": "0 0 1000 800"
+  },
+  "nodes": [
+    { "id": "gate-a", "label": "Gate A (North)", "type": "gate", "x": 500, "y": 50 },
+    { "id": "gate-b", "label": "Gate B (East)", "type": "gate", "x": 950, "y": 400 },
+    { "id": "gate-c", "label": "Gate C (South)", "type": "gate", "x": 500, "y": 750 },
+    { "id": "gate-d", "label": "Gate D (West)", "type": "gate", "x": 50, "y": 400 },
+    { "id": "conc-n", "label": "North Concourse", "type": "concourse", "x": 500, "y": 150 },
+    { "id": "conc-ne", "label": "Northeast Concourse", "type": "concourse", "x": 780, "y": 200 },
+    { "id": "conc-e", "label": "East Concourse", "type": "concourse", "x": 850, "y": 400 },
+    { "id": "conc-se", "label": "Southeast Concourse", "type": "concourse", "x": 780, "y": 600 },
+    { "id": "conc-s", "label": "South Concourse", "type": "concourse", "x": 500, "y": 650 },
+    { "id": "conc-sw", "label": "Southwest Concourse", "type": "concourse", "x": 220, "y": 600 },
+    { "id": "conc-w", "label": "West Concourse", "type": "concourse", "x": 150, "y": 400 },
+    { "id": "conc-nw", "label": "Northwest Concourse", "type": "concourse", "x": 220, "y": 200 },
+    { "id": "sec-n1", "label": "Section N1", "type": "section", "x": 420, "y": 230 },
+    { "id": "sec-n2", "label": "Section N2", "type": "section", "x": 580, "y": 230 },
+    { "id": "sec-e1", "label": "Section E1", "type": "section", "x": 760, "y": 320 },
+    { "id": "sec-e2", "label": "Section E2", "type": "section", "x": 760, "y": 480 },
+    { "id": "sec-s1", "label": "Section S1", "type": "section", "x": 420, "y": 570 },
+    { "id": "sec-s2", "label": "Section S2", "type": "section", "x": 580, "y": 570 },
+    { "id": "sec-w1", "label": "Section W1", "type": "section", "x": 240, "y": 320 },
+    { "id": "sec-w2", "label": "Section W2", "type": "section", "x": 240, "y": 480 },
+    {
+      "id": "aid-north",
+      "label": "First Aid — North",
+      "type": "amenity",
+      "amenity": "first-aid",
+      "x": 620,
+      "y": 150
+    },
+    {
+      "id": "aid-south",
+      "label": "First Aid — South",
+      "type": "amenity",
+      "amenity": "first-aid",
+      "x": 380,
+      "y": 650
+    },
+    {
+      "id": "food-ne",
+      "label": "Food Court — Northeast",
+      "type": "amenity",
+      "amenity": "food",
+      "x": 700,
+      "y": 150
+    },
+    {
+      "id": "food-sw",
+      "label": "Food Court — Southwest",
+      "type": "amenity",
+      "amenity": "food",
+      "x": 300,
+      "y": 650
+    },
+    {
+      "id": "prayer-room",
+      "label": "Multi-Faith Prayer Room",
+      "type": "amenity",
+      "amenity": "prayer-room",
+      "x": 280,
+      "y": 150
+    },
+    {
+      "id": "sensory-room",
+      "label": "Sensory-Friendly Quiet Room",
+      "type": "amenity",
+      "amenity": "sensory-room",
+      "x": 760,
+      "y": 150
+    },
+    {
+      "id": "access-seat-e",
+      "label": "Accessible Seating — East Platform",
+      "type": "amenity",
+      "amenity": "accessible-seating",
+      "x": 810,
+      "y": 320
+    },
+    {
+      "id": "access-seat-w",
+      "label": "Accessible Seating — West Platform",
+      "type": "amenity",
+      "amenity": "accessible-seating",
+      "x": 190,
+      "y": 320
+    },
+    {
+      "id": "assist-listen",
+      "label": "Assistive Listening Pickup — Gate A Info Desk",
+      "type": "amenity",
+      "amenity": "assistive-listening",
+      "x": 430,
+      "y": 90
+    },
+    {
+      "id": "water-n",
+      "label": "Water Refill — North",
+      "type": "amenity",
+      "amenity": "water-refill",
+      "x": 450,
+      "y": 150
+    },
+    {
+      "id": "water-e",
+      "label": "Water Refill — East",
+      "type": "amenity",
+      "amenity": "water-refill",
+      "x": 850,
+      "y": 330
+    },
+    {
+      "id": "water-s",
+      "label": "Water Refill — South",
+      "type": "amenity",
+      "amenity": "water-refill",
+      "x": 550,
+      "y": 650
+    },
+    {
+      "id": "recycle-n",
+      "label": "Recycling Point — North",
+      "type": "amenity",
+      "amenity": "recycling",
+      "x": 550,
+      "y": 150
+    },
+    {
+      "id": "recycle-w",
+      "label": "Recycling Point — West",
+      "type": "amenity",
+      "amenity": "recycling",
+      "x": 150,
+      "y": 330
+    },
+    {
+      "id": "recycle-s",
+      "label": "Recycling Point — South",
+      "type": "amenity",
+      "amenity": "recycling",
+      "x": 450,
+      "y": 650
+    }
+  ],
+  "edges": [
+    { "from": "gate-a", "to": "conc-n", "distanceMeters": 60, "stepFree": true, "via": "ramp" },
+    { "from": "gate-b", "to": "conc-e", "distanceMeters": 60, "stepFree": true, "via": "ramp" },
+    { "from": "gate-c", "to": "conc-s", "distanceMeters": 60, "stepFree": true, "via": "ramp" },
+    { "from": "gate-d", "to": "conc-w", "distanceMeters": 60, "stepFree": true, "via": "ramp" },
+    {
+      "from": "conc-n",
+      "to": "conc-ne",
+      "distanceMeters": 90,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "conc-ne",
+      "to": "conc-e",
+      "distanceMeters": 90,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "conc-e",
+      "to": "conc-se",
+      "distanceMeters": 90,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "conc-se",
+      "to": "conc-s",
+      "distanceMeters": 90,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "conc-s",
+      "to": "conc-sw",
+      "distanceMeters": 90,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "conc-sw",
+      "to": "conc-w",
+      "distanceMeters": 90,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "conc-w",
+      "to": "conc-nw",
+      "distanceMeters": 90,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "conc-nw",
+      "to": "conc-n",
+      "distanceMeters": 90,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    { "from": "conc-n", "to": "sec-n1", "distanceMeters": 30, "stepFree": false, "via": "stairs" },
+    { "from": "conc-n", "to": "sec-n2", "distanceMeters": 30, "stepFree": false, "via": "stairs" },
+    {
+      "from": "conc-nw",
+      "to": "sec-n1",
+      "distanceMeters": 55,
+      "stepFree": true,
+      "via": "elevator"
+    },
+    {
+      "from": "conc-ne",
+      "to": "sec-n2",
+      "distanceMeters": 55,
+      "stepFree": true,
+      "via": "elevator"
+    },
+    { "from": "conc-e", "to": "sec-e1", "distanceMeters": 30, "stepFree": false, "via": "stairs" },
+    { "from": "conc-e", "to": "sec-e2", "distanceMeters": 30, "stepFree": false, "via": "stairs" },
+    {
+      "from": "conc-ne",
+      "to": "sec-e1",
+      "distanceMeters": 55,
+      "stepFree": true,
+      "via": "elevator"
+    },
+    {
+      "from": "conc-se",
+      "to": "sec-e2",
+      "distanceMeters": 55,
+      "stepFree": true,
+      "via": "elevator"
+    },
+    { "from": "conc-s", "to": "sec-s1", "distanceMeters": 30, "stepFree": false, "via": "stairs" },
+    { "from": "conc-s", "to": "sec-s2", "distanceMeters": 30, "stepFree": false, "via": "stairs" },
+    {
+      "from": "conc-sw",
+      "to": "sec-s1",
+      "distanceMeters": 55,
+      "stepFree": true,
+      "via": "elevator"
+    },
+    {
+      "from": "conc-se",
+      "to": "sec-s2",
+      "distanceMeters": 55,
+      "stepFree": true,
+      "via": "elevator"
+    },
+    { "from": "conc-w", "to": "sec-w1", "distanceMeters": 30, "stepFree": false, "via": "stairs" },
+    { "from": "conc-w", "to": "sec-w2", "distanceMeters": 30, "stepFree": false, "via": "stairs" },
+    {
+      "from": "conc-nw",
+      "to": "sec-w1",
+      "distanceMeters": 55,
+      "stepFree": true,
+      "via": "elevator"
+    },
+    {
+      "from": "conc-sw",
+      "to": "sec-w2",
+      "distanceMeters": 55,
+      "stepFree": true,
+      "via": "elevator"
+    },
+    {
+      "from": "aid-north",
+      "to": "conc-n",
+      "distanceMeters": 25,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "aid-south",
+      "to": "conc-s",
+      "distanceMeters": 25,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "food-ne",
+      "to": "conc-ne",
+      "distanceMeters": 25,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "food-sw",
+      "to": "conc-sw",
+      "distanceMeters": 25,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "prayer-room",
+      "to": "conc-nw",
+      "distanceMeters": 20,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "sensory-room",
+      "to": "conc-ne",
+      "distanceMeters": 20,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "access-seat-e",
+      "to": "conc-e",
+      "distanceMeters": 20,
+      "stepFree": true,
+      "via": "ramp"
+    },
+    {
+      "from": "access-seat-w",
+      "to": "conc-w",
+      "distanceMeters": 20,
+      "stepFree": true,
+      "via": "ramp"
+    },
+    {
+      "from": "assist-listen",
+      "to": "gate-a",
+      "distanceMeters": 20,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "water-n",
+      "to": "conc-n",
+      "distanceMeters": 15,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "water-e",
+      "to": "conc-e",
+      "distanceMeters": 15,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "water-s",
+      "to": "conc-s",
+      "distanceMeters": 15,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "recycle-n",
+      "to": "conc-n",
+      "distanceMeters": 15,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "recycle-w",
+      "to": "conc-w",
+      "distanceMeters": 15,
+      "stepFree": true,
+      "via": "concourse"
+    },
+    {
+      "from": "recycle-s",
+      "to": "conc-s",
+      "distanceMeters": 15,
+      "stepFree": true,
+      "via": "concourse"
+    }
+  ],
+  "zones": [
+    {
+      "id": "zone-gate-a",
+      "label": "Gate A Plaza",
+      "capacity": 3000,
+      "rect": { "x": 380, "y": 20, "width": 240, "height": 70 }
+    },
+    {
+      "id": "zone-gate-b",
+      "label": "Gate B Plaza",
+      "capacity": 2200,
+      "rect": { "x": 900, "y": 290, "width": 80, "height": 220 }
+    },
+    {
+      "id": "zone-gate-c",
+      "label": "Gate C Plaza",
+      "capacity": 3000,
+      "rect": { "x": 380, "y": 710, "width": 240, "height": 70 }
+    },
+    {
+      "id": "zone-gate-d",
+      "label": "Gate D Plaza",
+      "capacity": 2200,
+      "rect": { "x": 20, "y": 290, "width": 80, "height": 220 }
+    },
+    {
+      "id": "zone-conc-n",
+      "label": "North Concourse",
+      "capacity": 2600,
+      "rect": { "x": 330, "y": 110, "width": 340, "height": 80 }
+    },
+    {
+      "id": "zone-conc-e",
+      "label": "East Concourse",
+      "capacity": 2000,
+      "rect": { "x": 810, "y": 260, "width": 90, "height": 280 }
+    },
+    {
+      "id": "zone-conc-s",
+      "label": "South Concourse",
+      "capacity": 2600,
+      "rect": { "x": 330, "y": 610, "width": 340, "height": 80 }
+    },
+    {
+      "id": "zone-conc-w",
+      "label": "West Concourse",
+      "capacity": 2000,
+      "rect": { "x": 100, "y": 260, "width": 90, "height": 280 }
+    },
+    {
+      "id": "zone-food-ne",
+      "label": "Northeast Food Court",
+      "capacity": 1200,
+      "rect": { "x": 660, "y": 110, "width": 140, "height": 80 }
+    },
+    {
+      "id": "zone-food-sw",
+      "label": "Southwest Food Court",
+      "capacity": 1200,
+      "rect": { "x": 200, "y": 610, "width": 140, "height": 80 }
+    }
+  ]
+}

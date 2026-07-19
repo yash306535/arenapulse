@@ -1,0 +1,11 @@
+{
+  "note": "Illustrative average emission factors for demo purposes, expressed in grams of CO2-equivalent per passenger-kilometre. Based on publicly available lifecycle averages (UK DEFRA / EEA style figures), rounded for clarity.",
+  "factors": [
+    { "mode": "walk", "label": "Walking", "gramsCo2ePerKm": 0 },
+    { "mode": "bike", "label": "Cycling", "gramsCo2ePerKm": 0 },
+    { "mode": "metro", "label": "Metro / light rail", "gramsCo2ePerKm": 35 },
+    { "mode": "bus", "label": "Shuttle bus", "gramsCo2ePerKm": 80 },
+    { "mode": "carpool", "label": "Car (shared, 3 people)", "gramsCo2ePerKm": 60 },
+    { "mode": "car", "label": "Car (driving alone)", "gramsCo2ePerKm": 170 }
+  ]
+}

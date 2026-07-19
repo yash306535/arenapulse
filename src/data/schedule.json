@@ -1,0 +1,47 @@
+{
+  "venue": "ArenaPulse Demo Stadium",
+  "matches": [
+    {
+      "id": "match-1",
+      "stage": "Group Stage — Matchday 1",
+      "home": "Mexico",
+      "away": "Poland",
+      "kickoffIso": "2026-06-11T19:00:00-06:00"
+    },
+    {
+      "id": "match-2",
+      "stage": "Group Stage — Matchday 1",
+      "home": "Brazil",
+      "away": "Morocco",
+      "kickoffIso": "2026-06-14T16:00:00-06:00"
+    },
+    {
+      "id": "match-3",
+      "stage": "Group Stage — Matchday 2",
+      "home": "Japan",
+      "away": "Senegal",
+      "kickoffIso": "2026-06-18T13:00:00-06:00"
+    },
+    {
+      "id": "match-4",
+      "stage": "Group Stage — Matchday 3",
+      "home": "France",
+      "away": "South Korea",
+      "kickoffIso": "2026-06-24T19:00:00-06:00"
+    },
+    {
+      "id": "match-5",
+      "stage": "Round of 32",
+      "home": "Argentina",
+      "away": "Canada",
+      "kickoffIso": "2026-06-30T16:00:00-06:00"
+    },
+    {
+      "id": "match-6",
+      "stage": "Round of 16",
+      "home": "Spain",
+      "away": "United States",
+      "kickoffIso": "2026-07-04T19:00:00-06:00"
+    }
+  ]
+}
